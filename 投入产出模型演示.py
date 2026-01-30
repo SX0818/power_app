@@ -38,6 +38,158 @@ HOME_BG_FILENAME = "home_bg.png"  # 首页背景图（放在脚本同目录下�
 # =========================
 # 统一样式
 # =========================
+# def inject_global_css():
+#     st.markdown("""
+#     <style>
+#       h1, h2, h3 { color: #505163 !important; }
+
+#       /* 指标卡片 */
+#       div[data-testid="stMetric"] {
+#         background-color: #f0f8f4 !important;
+#         border-radius: 12px !important;
+#         padding: 14px !important;
+#       }
+
+#       /* 首页：带背景的“模型演示”大横框 */
+#       .home-wrap{
+#   width:100%;
+#   display:flex;
+#   flex-direction:column;
+#   align-items:center;
+#   gap:0px;
+#   margin-top:0px;
+# }
+#       .home-slide{
+#   width: 100%;
+#   height: 100vh;
+#   border-radius: 0px;
+#   border: 0px solid transparent;
+#   box-shadow: none;
+#   background-position: center center;
+#   background-size: cover;
+#   background-repeat: no-repeat;
+#   position: relative;
+#   overflow: hidden;
+# }
+#       .home-slide::after{
+#         content:'';
+#         position:absolute;
+#         inset:0;
+#         background: linear-gradient(180deg, rgba(255,255,255,.00) 0%, rgba(255,255,255,.00) 55%, rgba(255,255,255,.10) 100%);
+#         pointer-events:none;
+#       }
+#       .home-title{
+#   position:absolute;
+#   left:50%;
+#   top: 40%;
+#   transform:translate(-50%, -50%);
+#   font-size: 92px;
+#   font-weight:900;
+#   letter-spacing:4px;
+#   color:#505163;
+#   background: transparent;
+#   border: none;
+#   padding: 0;
+#   border-radius: 0;
+#   box-shadow: none;
+#   text-shadow: 0 6px 18px rgba(0,0,0,.18);
+# }
+
+#       /* 关键修复：确保首页也能看到/点击「展开侧边栏」按钮 */
+#       div[data-testid="collapsedControl"]{
+#         position: fixed;
+#         top: 12px;
+#         left: 12px;
+#         z-index: 10000 !important;
+#       }
+#       div[data-testid="collapsedControl"] button{
+#         background: rgba(255,255,255,.92) !important;
+#         border: 2px solid rgba(82,196,26,.55) !important;
+#         border-radius: 14px !important;
+#         padding: 6px 10px !important;
+#         box-shadow: 0 10px 24px rgba(0,0,0,.12) !important;
+#       }
+#       button[aria-label="Open sidebar"],
+#       button[aria-label="Close sidebar"]{
+#         z-index: 10000 !important;
+#       }
+#       .home-slide{ z-index: 1; pointer-events:none; }
+
+#       /* 侧边栏导航：大按钮（仅影响 secondary） */
+#       section[data-testid="stSidebar"] button[kind="secondary"]{
+#         padding: 14px 14px !important;
+#         border-radius: 14px !important;
+#         border: 2px solid rgba(82,196,26,.55) !important;
+#         background: #ffffff !important;
+#         color: #505163 !important;
+#         font-weight: 900 !important;
+#         font-size: 20px !important;
+#         box-shadow: 0 8px 18px rgba(0,0,0,.06) !important;
+#         transition: all .12s ease-in-out;
+#       }
+#       section[data-testid="stSidebar"] button[kind="secondary"]:hover{
+#         transform: translateY(-1px);
+#         border-color: #389e0d !important;
+#         box-shadow: 0 12px 26px rgba(0,0,0,.08) !important;
+#       }
+
+#       /* 主按钮 */
+#       button[data-testid="baseButton-primary"]{
+#         background-color:#52c41a !important;
+#         color:#fff !important;
+#         border:none !important;
+#         border-radius:10px !important;
+#         font-weight:800 !important;
+#       }
+#       button[data-testid="baseButton-primary"]:hover{
+#         background-color:#389e0d !important;
+#       }
+
+#       /* 滑块绿色系 */
+#       div[data-testid="stSlider"] > div > div > div[role="slider"] > div:first-child {
+#           background-color: #e6f7ef !important;
+#       }
+#       div[data-testid="stSlider"] > div > div > div[role="slider"] > div:nth-child(2) {
+#           background-color: #52c41a !important;
+#       }
+#       div[data-testid="stSlider"] > div > div > div[role="slider"] > div[style*="position: absolute"] {
+#           background-color: #389e0d !important;
+#           border: 2px solid #136f22 !important;
+#       }
+#       div[data-testid="stSlider"] > div > div > div[role="slider"] > div[style*="position: absolute"]:hover {
+#           background-color: #237804 !important;
+#           border: 2px solid #0a4706 !important;
+#       }
+#     </style>
+#     """, unsafe_allow_html=True)
+import matplotlib
+from matplotlib import font_manager
+
+def set_cn_font_for_matplotlib():
+    """自动检测服务器可用的中文字体，优先使用适配的字体"""
+    # 优先字体列表（覆盖Linux/Windows/Mac常见中文字体）
+    preferred = [
+        "Noto Sans CJK SC",    # Linux系统默认思源黑体
+        "WenQuanYi Zen Hei",   # 文泉驿正黑（Linux常用）
+        "WenQuanYi Micro Hei", # 文泉驿微米黑
+        "Source Han Sans SC",  # 思源黑体
+        "SimHei",              # 黑体（Windows/Mac）
+        "Microsoft YaHei",     # 微软雅黑（Windows）
+        "PingFang SC",         # 苹方（Mac）
+        "Noto Sans CJK JP"     # 兜底CJK字体
+    ]
+    # 获取服务器已安装的所有字体名
+    available = {f.name for f in font_manager.fontManager.ttflist}
+    # 遍历优先列表，使用第一个匹配到的字体
+    for name in preferred:
+        if name in available:
+            matplotlib.rcParams["font.sans-serif"] = [name]
+            matplotlib.rcParams["font.family"] = "sans-serif"
+            print(f"✅ 成功匹配中文字体：{name}")  # 日志输出，方便排查
+            break
+    # 强制解决负号显示为方块的问题
+    matplotlib.rcParams["axes.unicode_minus"] = False
+
 def inject_global_css():
     st.markdown("""
     <style>
@@ -162,9 +314,13 @@ def inject_global_css():
       }
     </style>
     """, unsafe_allow_html=True)
+    
+    # 调用字体自动适配函数（核心！解决服务器中文显示问题）
+    set_cn_font_for_matplotlib()
 
     plt.rcParams["font.family"] = ["SimHei", "WenQuanYi Micro Hei", "Heiti TC", "PingFang SC", "Microsoft YaHei"]
     plt.rcParams["axes.unicode_minus"] = False
+    plt.rcParams["font.family"] = ["SimHei", "Microsoft YaHei", "PingFang SC", "Heiti TC"]
     plt.rcParams['font.sans-serif'] = ["SimHei", "Microsoft YaHei"]
 
 
