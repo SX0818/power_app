@@ -164,30 +164,58 @@ HOME_BG_FILENAME = "home_bg.png"  # 首页背景图（放在脚本同目录下�
 #     """, unsafe_allow_html=True)
 import matplotlib
 from matplotlib import font_manager
+import os
+
+# def set_cn_font_for_matplotlib():
+#     """自动检测服务器可用的中文字体，优先使用适配的字体"""
+#     # 优先字体列表（覆盖Linux/Windows/Mac常见中文字体）
+#     preferred = [
+#         "Noto Sans CJK SC",    # Linux系统默认思源黑体
+#         "WenQuanYi Zen Hei",   # 文泉驿正黑（Linux常用）
+#         "WenQuanYi Micro Hei", # 文泉驿微米黑
+#         "Source Han Sans SC",  # 思源黑体
+#         "SimHei",              # 黑体（Windows/Mac）
+#         "Microsoft YaHei",     # 微软雅黑（Windows）
+#         "PingFang SC",         # 苹方（Mac）
+#         "Noto Sans CJK JP"     # 兜底CJK字体
+#     ]
+#     # 获取服务器已安装的所有字体名
+#     available = {f.name for f in font_manager.fontManager.ttflist}
+#     # 遍历优先列表，使用第一个匹配到的字体
+#     for name in preferred:
+#         if name in available:
+#             matplotlib.rcParams["font.sans-serif"] = [name]
+#             matplotlib.rcParams["font.family"] = "sans-serif"
+#             print(f"✅ 成功匹配中文字体：{name}")  # 日志输出，方便排查
+#             break
+#     # 强制解决负号显示为方块的问题
+#     matplotlib.rcParams["axes.unicode_minus"] = False
+import matplotlib
+from matplotlib import font_manager
+import os
 
 def set_cn_font_for_matplotlib():
-    """自动检测服务器可用的中文字体，优先使用适配的字体"""
-    # 优先字体列表（覆盖Linux/Windows/Mac常见中文字体）
-    preferred = [
-        "Noto Sans CJK SC",    # Linux系统默认思源黑体
-        "WenQuanYi Zen Hei",   # 文泉驿正黑（Linux常用）
-        "WenQuanYi Micro Hei", # 文泉驿微米黑
-        "Source Han Sans SC",  # 思源黑体
-        "SimHei",              # 黑体（Windows/Mac）
-        "Microsoft YaHei",     # 微软雅黑（Windows）
-        "PingFang SC",         # 苹方（Mac）
-        "Noto Sans CJK JP"     # 兜底CJK字体
-    ]
-    # 获取服务器已安装的所有字体名
-    available = {f.name for f in font_manager.fontManager.ttflist}
-    # 遍历优先列表，使用第一个匹配到的字体
-    for name in preferred:
-        if name in available:
-            matplotlib.rcParams["font.sans-serif"] = [name]
-            matplotlib.rcParams["font.family"] = "sans-serif"
-            print(f"✅ 成功匹配中文字体：{name}")  # 日志输出，方便排查
-            break
-    # 强制解决负号显示为方块的问题
+    """加载本地字体文件，不依赖服务器字体"""
+    # 1. 定义本地字体路径（项目根目录下的 SimHei.ttf）
+    font_path = os.path.join(os.path.dirname(__file__), "SimHei.ttf")
+    # 2. 检查字体文件是否存在
+    if os.path.exists(font_path):
+        # 3. 加载本地字体
+        font_prop = font_manager.FontProperties(fname=font_path)
+        matplotlib.rcParams["font.sans-serif"] = [font_prop.get_name()]
+        matplotlib.rcParams["font.family"] = "sans-serif"
+        print(f"成功加载本地字体：{font_path}")
+    else:
+        # 备用方案：匹配服务器内置字体
+        preferred = ["Noto Sans CJK SC", "WenQuanYi Zen Hei"]
+        available = {f.name for f in font_manager.fontManager.ttflist}
+        for name in preferred:
+            if name in available:
+                matplotlib.rcParams["font.sans-serif"] = [name]
+                matplotlib.rcParams["font.family"] = "sans-serif"
+                print(f"匹配服务器内置字体：{name}")
+                break
+    # 解决负号显示问题
     matplotlib.rcParams["axes.unicode_minus"] = False
 
 def inject_global_css():
