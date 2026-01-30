@@ -59,7 +59,7 @@ plt.rcParams['font.sans-serif'] = ["SimHei", "WenQuanYi Micro Hei", "Heiti TC"]
 @st.cache_data  
 def load_and_preprocess_data():
     # 更新文件路径
-    excel_path = "/Users/yuqianxie/Desktop/投入产出黄石资料/投入产出汇报展示版/数据集/xyY.xlsx"
+    excel_path = "./data/xyY.xlsx"
     df = pd.read_excel(excel_path)
     df = df.loc[:, ~df.columns.str.contains('Unnamed')].iloc[6:12].reset_index(drop=True)
     years = [2021, 2022, 2023, 2024]
