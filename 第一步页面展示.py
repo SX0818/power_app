@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 
 st.set_page_config(
-    page_title="阳新县投资-可靠率预测系统",
+    page_title="第一步：测总额",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
