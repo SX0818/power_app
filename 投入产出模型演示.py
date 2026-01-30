@@ -1212,6 +1212,12 @@ def render_step2(file_bytes: Optional[bytes]):
 
         total_v = sum(values) if sum(values) > 0 else 1.0
         percentages = [(v / total_v) * 100 for v in values]
+        
+        
+        import matplotlib.pyplot as plt
+        import numpy as np
+        plt.rcParams["font.sans-serif"] = ["Noto Sans CJK SC"]
+        plt.rcParams["axes.unicode_minus"] = False  # 解决负号显示问题
 
         fig, ax = plt.subplots(figsize=(12, 8))
         colors = plt.cm.tab10(np.linspace(0, 1, len(labels))) if len(labels) else None
@@ -1227,10 +1233,11 @@ def render_step2(file_bytes: Optional[bytes]):
                 ha="left", va="center",
                 fontsize=10, fontweight="bold",
                 color="black",
+                fontfamily="Noto Sans CJK SC"
             )
 
-        ax.set_xlabel("分配金额（万元）", fontsize=14, fontweight="bold")
-        ax.set_ylabel("投资项目", fontsize=14, fontweight="bold")
+        ax.set_xlabel("分配金额（万元）", fontsize=14, fontweight="bold",fontfamily="Noto Sans CJK SC")
+        ax.set_ylabel("投资项目", fontsize=14, fontweight="bold",fontfamily="Noto Sans CJK SC")
         ax.set_xlim(0, max_val * 1.15)
 
         ax.spines["top"].set_visible(False)
