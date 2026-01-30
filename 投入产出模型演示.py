@@ -165,6 +165,7 @@ def inject_global_css():
 
     plt.rcParams["font.family"] = ["SimHei", "WenQuanYi Micro Hei", "Heiti TC", "PingFang SC", "Microsoft YaHei"]
     plt.rcParams["axes.unicode_minus"] = False
+    plt.rcParams['font.sans-serif'] = ["SimHei", "Microsoft YaHei"]
 
 
 # =========================
