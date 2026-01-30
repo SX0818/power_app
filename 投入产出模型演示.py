@@ -32,7 +32,7 @@ BASE_SAFETY_SHARE = 0.4267   # 安全项目（消除设备安全隐患）基础�
 SLIDER_CAP = 1.0            # 所有滑块共享总上限
 SLIDER_STEP = 0.001         # 滑块步长
 
-HOME_BG_FILENAME = "home_bg.png"  # 首页背景图（放在脚本同目录下）
+HOME_BG_FILENAME = ".data/home_bg.png"  # 首页背景图（放在脚本同目录下）
 
 
 # =========================
