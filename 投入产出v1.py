@@ -867,7 +867,7 @@ def build_shared_cap_sliders(project_order: List[str], default_bounds: Dict[str,
 
     ratio_sum = sum(float(st.session_state[f"ratio_{p}"]) for p in project_order)
     remaining = max(0.0, SLIDER_CAP - ratio_sum)
-    st.caption(f"当前系数合计：{ratio_sum:.3f}，剩余：{remaining:.3f}")
+    st.caption(f"当前系数合计：{ratio_sum:.2f}，剩余：{remaining:.2f}")
 
     return project_bounds
 
