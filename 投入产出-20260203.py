@@ -1079,7 +1079,7 @@ def render_step2(file_bytes: Optional[bytes]):
             )
 
         ax.set_xlabel("分配金额（万元）", fontsize=14, fontweight="bold")
-        ax.set_ylabel("子指标", fontsize=14, fontweight="bold")
+        ax.set_ylabel("项目投入", fontsize=14, fontweight="bold")
         ax.set_xlim(0, max_val * 1.15)
 
         ax.spines["top"].set_visible(False)
