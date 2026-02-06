@@ -1052,8 +1052,8 @@ def render_step2(file_bytes: Optional[bytes]):
 
         plot_data = {k: float(v) for k, v in allocation.items()}
         sorted_pairs = sorted(plot_data.items(), key=lambda x: x[1], reverse=False)
-        # labels = [p[0] for p in sorted_pairs]
-        labels = [project_to_sub.get(p[0], p[0]) for p in sorted_pairs]
+        labels = [p[0] for p in sorted_pairs]
+        # labels = [project_to_sub.get(p[0], p[0]) for p in sorted_pairs]
         
         
         values = [p[1] for p in sorted_pairs]
